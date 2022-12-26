@@ -1,10 +1,11 @@
+import { Sequelize, Op } from 'sequelize';
 import Event from './entities/event.entity';
-
-
+import Workshop from './entities/workshop.entity';
 export class EventsService {
 
   async getWarmupEvents() {
-    return await Event.findAll();
+
+    return await Event.findAll();    
   }
 
   /* TODO: complete getEventsWithWorkshops so that it returns all events including the workshops
@@ -85,7 +86,12 @@ export class EventsService {
      */
 
   async getEventsWithWorkshops() {
-    throw new Error('TODO task 1');
+    return await Event.findAll({
+      include: [{
+        model: Workshop,
+        required: true
+      }]
+    }); 
   }
 
   /* TODO: complete getFutureEventWithWorkshops so that it returns events with workshops, that have not yet started
@@ -155,6 +161,16 @@ export class EventsService {
     ```
      */
   async getFutureEventWithWorkshops() {
-    throw new Error('TODO task 2');
+    return await Event.findAll({
+      include: [{
+        model: Workshop,
+        required: true,
+        where: {
+          start: {
+            [Op.gte]: new Date()
+          }
+        }
+      }],
+    }); 
   }
 }

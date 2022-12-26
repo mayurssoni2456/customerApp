@@ -26,7 +26,7 @@ describe('events', () => {
   it('GET /events/events', async () => {
     const date1 = format(subYears(new Date(), 1), 'yyyy');
     const date2 = format(addYears(new Date(), 1), 'yyyy');
-
+    
     const response = await request(Server.getApp().app)
       .get('/events/events')
       .expect(200);
